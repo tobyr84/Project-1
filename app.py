@@ -8,6 +8,14 @@ import json
 app = Flask(__name__)
 app.config.from_object('flask_config.Config')
 
+class ViewModel:
+    def __init__(self, items):
+        self._items = items
+    @property
+    def items(self): 
+        return self._items
+
+
 @app.route('/')
 def index():
     tasks=[]
@@ -17,11 +25,11 @@ def index():
         for task_list in trello_items.get_lists():
             if task_list['id']== card['idList']:
                 card_list = task_list
-        
         card['task_status']=card_list['name']
         tasks.append(card)
-    
-    return render_template('index.html', todos = tasks)
+
+    item_view_model = ViewModel(tasks)
+    return render_template('index.html', view_model = item_view_model)
 
 if __name__ == "__main__":
     app.run(debug=True)
