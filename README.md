@@ -1,5 +1,6 @@
 # DevOps Apprenticeship: Project Exercise
 
+If required, type "Poetry shell" to create the Poetry environment.  
 ## Setup.sh
 
 Designed to automate the boring stuff for you.  Updates your resources, installs the pre-requisites, installs the latest version of python, installs poetry, clones the required GIT respository for the App and establishes your dependences.  
