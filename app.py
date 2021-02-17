@@ -1,5 +1,5 @@
 import trello_items
-import todo_item
+from todo_item import TodoItem
 from flask import Flask, render_template, request, redirect, url_for, flash
 import requests
 import os
@@ -19,17 +19,11 @@ class ViewModel:
 @app.route('/')
 def index():
     tasks=[]
-    lists = trello_items.get_lists()
     for card in trello_items.get_cards():
-        
-        for task_list in trello_items.get_lists():
-            if task_list['id']== card['idList']:
-                card_list = task_list
-        card['task_status']=card_list['name']
-        tasks.append(card)
 
-    item_view_model = ViewModel(tasks)
-    return render_template('index.html', view_model = item_view_model)
+        tasks.append(TodoItem.from_trello_card(card))
+    
+    return render_template('index.html', todos = tasks)
 
 if __name__ == "__main__":
     app.run(debug=True)
@@ -56,8 +50,19 @@ def delete_todo():
 def update_todo():
     id = request.form.get('todo_id')
     new_todo_value = request.form.get("title")
+
+    new_status_value = request.form.get("status")
+    lists = trello_items.get_lists()
+            
+    for task_list in lists:
+        if task_list['name']== new_status_value:
+            new_list_id = task_list['id']
+
     print(id)
-    trello_items.update_todo(id, new_todo_value)
+    print(new_todo_value)
+    print(new_status_value)
+    print(new_list_id)
+    trello_items.update_todo(id, new_todo_value, new_list_id)
     flash("updated")
     return redirect('/')
 
