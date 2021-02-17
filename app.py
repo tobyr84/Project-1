@@ -8,10 +8,19 @@ import json
 app = Flask(__name__)
 app.config.from_object('flask_config.Config')
 
+class ViewModel:
+    def __init__(self, items):
+        self._items = items
+    @property
+    def items(self): 
+        return self._items
+
+
 @app.route('/')
 def index():
     tasks=[]
     for card in trello_items.get_cards():
+
         tasks.append(TodoItem.from_trello_card(card))
     
     return render_template('index.html', todos = tasks)
@@ -41,6 +50,7 @@ def delete_todo():
 def update_todo():
     id = request.form.get('todo_id')
     new_todo_value = request.form.get("title")
+
     new_status_value = request.form.get("status")
     lists = trello_items.get_lists()
             

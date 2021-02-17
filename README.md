@@ -1,5 +1,6 @@
 # DevOps Apprenticeship: Project Exercise
 
+If required, type "Poetry shell" to create the Poetry environment.  
 ## Setup.sh
  
 
