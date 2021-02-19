@@ -1,6 +1,7 @@
 import os
 
 class TodoItem:
+    # You call this by running TodoItem(id, title, status)
     def __init__(self, id, title, status):
         self.id = id
         self.title = title
