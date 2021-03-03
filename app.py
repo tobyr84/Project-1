@@ -1,3 +1,4 @@
+import arrow
 import trello_items
 from todo_item import TodoItem
 from view_model import ViewModel
@@ -12,12 +13,13 @@ app.config.from_object('flask_config.Config')
 @app.route('/')
 def index():
     tasks=[]
+    show_all = request.args.get("show_all", False)
     for card in trello_items.get_cards():
         tasks.append(TodoItem.from_trello_card(card))
-    
+
     #return render_template('index.html', todos = tasks)
     item_view_model = ViewModel(tasks) 
-    return render_template('index.html', view_model=item_view_model)
+    return render_template('index.html', view_model=item_view_model, show_all=show_all)
 
 if __name__ == "__main__":
     app.run(debug=True)

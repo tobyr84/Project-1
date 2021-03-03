@@ -1,3 +1,4 @@
+import arrow
 class ViewModel:
     def __init__(self, items):
         self._items = items
@@ -51,8 +52,19 @@ class ViewModel:
         else:
             return False
 
-        # output - a list
-        # 5      - a number
-        # len()  - a function that takes lists, and returns numbers
-        # <=     - an operator that takes two numbers, and returns true or false
-        # if     - a construct that takes true or false
+    @property
+    def show_all_done_items_today(self):
+        # shows all items that have been clompleted today
+        print("Correct Function")
+        print(self._items)
+        output = []
+
+        for item in self._items:
+            print(item.date)
+            print(arrow.utcnow())
+            print(item.title)
+            if item.status == "Completed" and arrow.get(item.date).floor('day') == arrow.utcnow().floor('day'):
+                output.append(item)
+
+        return output
+  
