@@ -28,7 +28,7 @@ class ViewModel:
         return output
 
     @property
-    def done(self): 
+    def all_done(self): 
         output = []
 
         for item in self._items:
